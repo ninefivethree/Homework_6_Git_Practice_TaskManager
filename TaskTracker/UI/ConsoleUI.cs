@@ -169,23 +169,25 @@ namespace TaskTracker.UI
 
             Console.WriteLine($"Текущий статус: {task.Status}");
             Console.WriteLine("Новый статус:");
-            Console.WriteLine("1. New");
-            Console.WriteLine("2. InProgress");
-            Console.WriteLine("3. Done");
+            
+            string[] statusNames = Enum.GetNames(typeof(TaskStatus));
+            for (int i = 0; i < statusNames.Length; i++)
+            {
+                Console.WriteLine($"{i + 1}. {statusNames[i]}");
+            }
+            
             Console.Write("Выберите: ");
 
             string statusInput = Console.ReadLine();
             int statusChoice;
-            if (int.TryParse(statusInput, out statusChoice))
+            if (int.TryParse(statusInput, out statusChoice) && statusChoice <= statusNames.Length && statusChoice >= 1)
             {
-                switch (statusChoice)
-                {
-                    case 1: taskService.ChangeStatus(id, TaskStatus.New); break;
-                    case 2: taskService.ChangeStatus(id, TaskStatus.InProgress); break;
-                    case 3: taskService.ChangeStatus(id, TaskStatus.Done); break;
-                    default: Console.WriteLine("Неверный выбор."); return;
-                }
+                taskService.ChangeStatus(id, (TaskStatus)statusChoice);
                 Console.WriteLine("Статус изменён.");
+            }
+            else
+            {
+                Console.WriteLine("Неверный выбор.");
             }
 
             if (useArrowMenu)
