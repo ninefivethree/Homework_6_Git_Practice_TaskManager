@@ -182,7 +182,7 @@ namespace TaskTracker.UI
             int statusChoice;
             if (int.TryParse(statusInput, out statusChoice) && statusChoice <= statusNames.Length && statusChoice >= 1)
             {
-                taskService.ChangeStatus(id, (TaskStatus)statusChoice);
+                taskService.ChangeStatus(id, (TaskStatus)(statusChoice - 1));
                 Console.WriteLine("Статус изменён.");
             }
             else
